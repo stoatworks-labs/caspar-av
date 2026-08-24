@@ -128,3 +128,10 @@ Log through `crates/diag`, never `println!`. `diag` is deliberately self-contain
 dependency-light so it can be copied into the other repos unchanged — fix a bug here and
 check whether the other copies need it too.
 See [docs/diagnostics.md](docs/diagnostics.md).
+
+## Notes
+
+`docs/NOTES.md` carries this repo's working notes — current status, decisions
+already made, and the traps that have actually bitten. Read it before changing
+anything non-obvious. Cross-cutting fleet knowledge lives in
+[fleet-notes](https://github.com/stoatworks-labs/fleet-notes).
