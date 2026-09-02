@@ -37,19 +37,19 @@ is coming out of anything.*
 
 ## Download
 
-**[v0.1.1](https://github.com/stoatworks-labs/caspar-av/releases/tag/v0.1.1)** — prebuilt for macOS, Windows and Linux. Pick your platform:
+**[v0.1.2](https://github.com/stoatworks-labs/caspar-av/releases/tag/v0.1.2)** — prebuilt for macOS, Windows and Linux. Pick your platform:
 
 <details>
 <summary><b>macOS</b> — Apple Silicon, Intel</summary>
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Apple Silicon · .dmg disk image (CLI) | [`caspar-av-0.1.1-macos-aarch64-cli.dmg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-macos-aarch64-cli.dmg) | 4.3 MB |
-| Intel · .dmg disk image (CLI) | [`caspar-av-0.1.1-macos-x86_64-cli.dmg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-macos-x86_64-cli.dmg) | 4.4 MB |
-| Apple Silicon · .pkg installer (CLI) | [`caspar-av-0.1.1-macos-aarch64-cli.pkg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-macos-aarch64-cli.pkg) | 3.8 MB |
-| Intel · .pkg installer (CLI) | [`caspar-av-0.1.1-macos-x86_64-cli.pkg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-macos-x86_64-cli.pkg) | 4.0 MB |
-| Apple Silicon · .tar.gz archive | [`caspar-av-0.1.1-macos-aarch64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-macos-aarch64.tar.gz) | 3.9 MB |
-| Intel · .tar.gz archive | [`caspar-av-0.1.1-macos-x86_64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-macos-x86_64.tar.gz) | 3.9 MB |
+| Apple Silicon · .dmg disk image (CLI) | [`caspar-av-0.1.2-macos-aarch64-cli.dmg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-macos-aarch64-cli.dmg) | 6.0 MB |
+| Intel · .dmg disk image (CLI) | [`caspar-av-0.1.2-macos-x86_64-cli.dmg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-macos-x86_64-cli.dmg) | 6.2 MB |
+| Apple Silicon · .pkg installer (CLI) | [`caspar-av-0.1.2-macos-aarch64-cli.pkg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-macos-aarch64-cli.pkg) | 5.5 MB |
+| Intel · .pkg installer (CLI) | [`caspar-av-0.1.2-macos-x86_64-cli.pkg`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-macos-x86_64-cli.pkg) | 5.7 MB |
+| Apple Silicon · .tar.gz archive | [`caspar-av-0.1.2-macos-aarch64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-macos-aarch64.tar.gz) | 5.5 MB |
+| Intel · .tar.gz archive | [`caspar-av-0.1.2-macos-x86_64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-macos-x86_64.tar.gz) | 5.7 MB |
 
 </details>
 
@@ -58,10 +58,10 @@ is coming out of anything.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 · .exe installer | [`caspar-av-0.1.1-windows-x86_64-setup.exe`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-windows-x86_64-setup.exe) | 3.0 MB |
-| ARM64 · .exe installer | [`caspar-av-0.1.1-windows-aarch64-setup.exe`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-windows-aarch64-setup.exe) | 2.8 MB |
-| x64 · .zip archive | [`caspar-av-0.1.1-windows-x86_64.zip`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-windows-x86_64.zip) | 3.6 MB |
-| ARM64 · .zip archive | [`caspar-av-0.1.1-windows-aarch64.zip`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-windows-aarch64.zip) | 3.5 MB |
+| x64 · .exe installer | [`caspar-av-0.1.2-windows-x86_64-setup.exe`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-windows-x86_64-setup.exe) | 4.6 MB |
+| ARM64 · .exe installer | [`caspar-av-0.1.2-windows-aarch64-setup.exe`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-windows-aarch64-setup.exe) | 4.4 MB |
+| x64 · .zip archive | [`caspar-av-0.1.2-windows-x86_64.zip`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-windows-x86_64.zip) | 5.3 MB |
+| ARM64 · .zip archive | [`caspar-av-0.1.2-windows-aarch64.zip`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-windows-aarch64.zip) | 5.2 MB |
 
 </details>
 
@@ -70,8 +70,8 @@ is coming out of anything.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 · .tar.gz archive | [`caspar-av-0.1.1-linux-x86_64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-linux-x86_64.tar.gz) | 3.7 MB |
-| ARM64 · .tar.gz archive | [`caspar-av-0.1.1-linux-aarch64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.1/caspar-av-0.1.1-linux-aarch64.tar.gz) | 3.6 MB |
+| x64 · .tar.gz archive | [`caspar-av-0.1.2-linux-x86_64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-linux-x86_64.tar.gz) | 5.4 MB |
+| ARM64 · .tar.gz archive | [`caspar-av-0.1.2-linux-aarch64.tar.gz`](https://github.com/stoatworks-labs/caspar-av/releases/download/v0.1.2/caspar-av-0.1.2-linux-aarch64.tar.gz) | 5.3 MB |
 
 </details>
 
