@@ -1,0 +1,216 @@
+name: release
+
+# Build native binaries for Windows, macOS and Linux (x86_64 + arm64).
+# Linux jobs also emit .deb and .rpm packages via nfpm.
+#
+# caspar-AV is a headless bridge daemon (AMCP + OSC in, REST + WebSocket out)
+# that serves its own console, so there is no Tauri launcher job. The console
+# is a Vite app built into web/, which is gitignored — every job that stages
+# an artefact has to build it first, exactly as RR_PREBUILD does for a local
+# release.
+#
+# The rl_* helpers come from the vendored scripts/release-lib.sh, which
+# scripts/release-local.sh also uses, so a CI artefact and a locally cut one
+# are identical.
+#
+# Trigger manually (Actions > release > Run workflow) or by pushing a v* tag.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: linux-x86_64,    os: ubuntu-latest,    target: x86_64-unknown-linux-gnu,   pkgarch: amd64 }
+          - { name: linux-aarch64,   os: ubuntu-24.04-arm, target: aarch64-unknown-linux-gnu,  pkgarch: arm64 }
+          - { name: windows-x86_64,  os: windows-latest,   target: x86_64-pc-windows-msvc }
+          - { name: windows-aarch64, os: windows-11-arm,   target: aarch64-pc-windows-msvc }
+          # macos-13 is retired; cross-compiling x86_64 on the arm64 image is
+          # the supported path.
+          - { name: macos-x86_64,    os: macos-14,         target: x86_64-apple-darwin }
+          - { name: macos-aarch64,   os: macos-14,         target: aarch64-apple-darwin }
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Build the console into web/
+        shell: bash
+        run: npm --prefix console ci --silent && npm --prefix console run build
+
+      - name: Derive version
+        id: ver
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=0.1.0-dev.${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build (release)
+        run: cargo build --release --target ${{ matrix.target }} --bins
+
+      - name: Stage binaries
+        shell: bash
+        env:
+          BINS: "caspar-avd"
+        run: |
+          mkdir -p dist
+          ext=""
+          [[ "${{ matrix.target }}" == *windows* ]] && ext=".exe"
+          for b in $BINS; do
+            cp "target/${{ matrix.target }}/release/${b}${ext}" "dist/${b}${ext}"
+          done
+          cp demo-show.json show.json dist/ 2>/dev/null || true
+          for d in web docs; do [ -d "$d" ] && cp -R "$d" dist/; done
+          ls -la dist
+
+      - name: Package .deb and .rpm (Linux only)
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        env:
+          PKGARCH: ${{ matrix.pkgarch }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          go install github.com/goreleaser/nfpm/v2/cmd/nfpm@v2.41.1
+          export PATH="$(go env GOPATH)/bin:$PATH"
+          cat > dist/nfpm.yaml <<EOF
+          name: caspar-av
+          arch: ${PKGARCH}
+          version: "${VERSION}"
+          maintainer: Allan Sargeant <allan.sargeant@gmail.com>
+          description: The caspar-AV bridge daemon - AMCP + OSC in, REST + WebSocket out
+          license: MIT
+          contents:
+            - src: ./caspar-avd
+              dst: /usr/bin/caspar-avd
+            - src: ./web
+              dst: /usr/share/caspar-av/web
+          EOF
+          ( cd dist && nfpm package -f nfpm.yaml -p deb && nfpm package -f nfpm.yaml -p rpm )
+          rm -f dist/nfpm.yaml
+
+      - name: Create archive
+        shell: bash
+        run: |
+          cd dist
+          if [[ "${{ matrix.target }}" == *windows* ]]; then
+            7z a "../caspar-av-${{ matrix.name }}.zip" . -xr'!*.deb' -xr'!*.rpm'
+          else
+            tar czf "../caspar-av-${{ matrix.name }}.tar.gz" --exclude='*.deb' --exclude='*.rpm' .
+          fi
+          cd ..
+          mv dist/*.deb dist/*.rpm . 2>/dev/null || true
+
+      - name: Installers (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        # An archive of a CLI is not an install experience. The .pkg drops the
+        # daemon and its console under /usr/local and links the binary into
+        # /usr/local/bin; the .dmg carries the same payload for anyone who
+        # prefers to copy it by hand.
+        run: |
+          source scripts/release-lib.sh
+          rl_init "caspar-AV" caspar-av "${{ steps.ver.outputs.version }}" com.stoatworks.caspar-av "$GITHUB_WORKSPACE"
+          stage="$RUNNER_TEMP/stage-cli"
+          rm -rf "$stage"; mkdir -p "$stage"
+          cp dist/caspar-avd "$stage/"
+          cp README.md LICENSE demo-show.json show.json "$stage/" 2>/dev/null || true
+          for d in web docs; do [ -d "$d" ] && cp -R "$d" "$stage/"; done
+          rl_pkg "${{ matrix.name }}-cli" "$stage" --cli
+          rl_dmg "${{ matrix.name }}-cli" "$stage"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: caspar-av-${{ matrix.name }}
+          path: |
+            *.zip
+            *.tar.gz
+            *.deb
+            *.rpm
+            *.dmg
+            *.pkg
+          if-no-files-found: error
+
+  windows-installers:
+    name: Windows installers
+    needs: build
+    runs-on: ubuntu-latest
+    # makensis cross-compiles, so both architectures are produced here from the
+    # zips the Windows jobs uploaded. Building them on the Windows runners is
+    # not viable for arm64 — that image cannot execute the 32-bit makensis.
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - name: Install NSIS
+        run: sudo apt-get update && sudo apt-get install -y nsis
+
+      - name: Build installers
+        shell: bash
+        run: |
+          source scripts/release-lib.sh
+          version="${GITHUB_REF_NAME#v}"
+          rl_init "caspar-AV" caspar-av "$version" com.stoatworks.caspar-av "$PWD/installers"
+          for arch in x86_64 aarch64; do
+            zip="$(find artifacts -name "caspar-av-windows-${arch}.zip" | head -1)"
+            if [ -z "$zip" ]; then
+              echo "no build artefact for windows-${arch}, skipping"
+              continue
+            fi
+            stage="$RUNNER_TEMP/stage-${arch}"
+            rm -rf "$stage"; mkdir -p "$stage"
+            unzip -q "$zip" -d "$stage"
+            cp README.md LICENSE "$stage/" 2>/dev/null || true
+            # A daemon has no shortcut to make; --cli installs the files and
+            # appends the install dir to the system PATH.
+            rl_nsis "windows-${arch}" "$stage" --cli
+          done
+          ls -l installers
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: caspar-av-windows-installers
+          path: installers/*
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: [build, windows-installers]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+      - name: Publish
+        uses: softprops/action-gh-release@v3
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
