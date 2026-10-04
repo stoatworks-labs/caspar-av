@@ -10,6 +10,16 @@ pushed out by `scripts/sync-attributions.py`. Edit it there, not here.
 
 Libraries, SDKs and frameworks the project is built on or bundles.
 
+### React
+
+<https://react.dev>  
+Licence: MIT  
+Copyright: Meta Platforms, Inc. and affiliates
+
+An npm dependency.
+
+The UI layer for the browser tools and the Electron and Tauri front ends.
+
 ### The Rust crate ecosystem
 
 <https://crates.io>  
@@ -19,6 +29,16 @@ Copyright: the individual crate authors
 Cargo dependencies, resolved and pinned in Cargo.lock.
 
 Async runtimes, protocol codecs, serialisation and GUI toolkits. The exact set and versions for any build are in that repo's Cargo.lock, which is the authoritative list.
+
+### The npm ecosystem
+
+<https://www.npmjs.com>  
+Licence: predominantly MIT  
+Copyright: the individual package authors
+
+npm dependencies, resolved and pinned in the lockfile.
+
+Build tooling, test runners and the libraries the front ends are assembled from. The exact set and versions for any build are in that repo's lockfile, which is the authoritative list.
 
 The full transitive dependency set for any build is pinned in this repo's lockfile,
 which is the authoritative list. What is named above is the layers a reader would
