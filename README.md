@@ -128,9 +128,9 @@ Built, tested, and **verified against a real CasparCG 2.5.0 server**.
 
 - **`amcp`**: protocol codec and async client. Command building with the
   server's real escaping rules, response framing by status code, `REQ`/`RES`
-  correlation, `BEGIN`/`COMMIT` batching. 38 tests.
+  correlation, `BEGIN`/`COMMIT` batching. 46 tests.
 - **`casparosc`**: OSC decoder and the telemetry state tree, raw plus a typed
-  digest. 13 tests.
+  digest. 20 tests.
 - **`scanner`**: media-scanner client, with media and its ffprobe metadata,
   thumbnails, templates with GDD schemas, and fonts. 5 tests.
 - **`showd`** (`caspar-avd`): the bridge. A supervised connection with reconnect,

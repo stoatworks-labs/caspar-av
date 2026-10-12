@@ -1,6 +1,14 @@
 # Releasing
 
-Releases are built **locally**, not in CI:
+Since v0.1.3, releases are built by [`release.yml`](../.github/workflows/release.yml)
+when a `v*` tag is pushed: the six targets on GitHub's runners (macOS as one universal
+build), `.deb` and `.rpm` packages, Windows installers and a macOS `.pkg` and `.dmg`,
+all attached to the GitHub release. The workflow builds and packages; it runs no binary.
+The macOS assets go up ad-hoc signed, and my Mac then signs them with the Developer ID,
+notarises them and uploads them over the top, so the key never leaves it.
+
+`scripts/release-local.sh` builds the same artefacts locally, from the same vendored
+`release-lib.sh`:
 
 ```bash
 scripts/release-local.sh            # build into dist-release/
@@ -17,13 +25,6 @@ brew install zig && cargo install cargo-zigbuild cargo-xwin
 ```
 
 A target whose tool is missing is skipped with a note rather than failing.
-
-## Why no GitHub Actions workflow
-
-This account's Actions minutes are exhausted, so a workflow here would fail in a
-few seconds on every push and read as a broken build rather than a billing
-limit. Building locally is the honest option until that changes; the script is
-written so it can be lifted into a workflow unchanged when it does.
 
 ## Verify the artefacts, not the build log
 

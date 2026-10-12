@@ -15,7 +15,7 @@ CasparCG is presented as a *broadcast playout* engine, but the pieces needed to 
 a *live-events media server* are already in it and simply unexposed. caspar-AV adds the
 layer above: a **show** — canvas, screens, cues, pads — that compiles down to AMCP.
 
-Public repo, MIT, **v0.1.1**. Not affiliated with or endorsed by the CasparCG project.
+Public repo, MIT, **v0.1.5**. Not affiliated with or endorsed by the CasparCG project.
 
 ## 2. Why a daemon and not just a web page
 
@@ -41,8 +41,8 @@ console.
 ```
 crates/
   amcp      Protocol codec + async client. Command building, response framing,
-            REQ/RES correlation, BEGIN/COMMIT batching. 38 tests.
-  osc       (casparosc) OSC decoder + telemetry state tree, raw plus typed digest. 13 tests.
+            REQ/RES correlation, BEGIN/COMMIT batching. 46 tests.
+  osc       (casparosc) OSC decoder + telemetry state tree, raw plus typed digest. 20 tests.
   scanner   media-scanner HTTP client — media, ffprobe metadata, thumbnails,
             templates with GDD schemas, fonts. 5 tests.
   showd     (caspar-avd) The bridge: supervised connection, show model, cue
@@ -112,8 +112,9 @@ the recording goes stale — see `demo/README.md`.
 
 - Public repo. "Commit" means commit **and** push.
 - Ships the user-facing AI disclaimer in the README.
-- Releases are cut with the local release harness, not CI. The README's `## Download` block
-  is generated between the `<!-- downloads:start -->` markers — don't hand-edit it.
+- Releases are cut by `.github/workflows/release.yml` on a `v*` tag (since v0.1.3), and
+  `scripts/release-local.sh` builds the same artefacts locally. The README's `## Download`
+  block is generated between the `<!-- downloads:start -->` markers — don't hand-edit it.
 
 ## 9. Related
 

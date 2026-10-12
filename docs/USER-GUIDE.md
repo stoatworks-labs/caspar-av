@@ -44,9 +44,9 @@ cd console && npm ci && npm run build && cd ..
 Then open <http://localhost:8080>. There are also prebuilt binaries for macOS, Windows and Linux
 in the README's Download section.
 
-On macOS, **take the `.dmg` or `.pkg`**: those are Developer ID-signed and notarised and open
-normally. The `.tar.gz` payload isn't signed (it only carries an ad-hoc signature), so Gatekeeper
-refuses it outright. The Windows builds are unsigned and SmartScreen objects once.
+On macOS, the `.dmg` and `.pkg` are Developer ID-signed and notarised and open normally, and
+the binary in the `.tar.gz` is Developer ID-signed too. The Windows builds are unsigned and
+SmartScreen objects once.
 [UNSIGNED.md](UNSIGNED.md) covers all of that, plus the Defender Firewall prompt.
 
 Against a real server, it's worth checking the protocol assumptions still hold on your build:

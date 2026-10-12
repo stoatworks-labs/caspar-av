@@ -27,5 +27,6 @@ so a multi-screen change lands on one frame. Six console pages: Media, Screens, 
 Cues, Templates, Grid.
 
 69 Rust tests, zero clippy warnings. Verified end-to-end in a browser against
-`scripts/fake-caspar.py` (speaks real AMCP framing + pushes real OSC). **Never run against a
-real CasparCG server** — README and docs/scope.md say so. See [casparcg amcp](https://github.com/stoatworks-labs/fleet-notes/blob/main/notes/reference_casparcg_amcp.md).
+`scripts/fake-caspar.py` (speaks real AMCP framing + pushes real OSC). **Verified against a
+real CasparCG 2.5.0 server** since 2026-07-29 (de57a58), but never on real output hardware or
+in a live show — README and docs/scope.md say so. See [casparcg amcp](https://github.com/stoatworks-labs/fleet-notes/blob/main/notes/reference_casparcg_amcp.md).

@@ -31,7 +31,7 @@ a consumer.
 
 ## Built and verified
 
-**Protocol (`amcp`)** — 44 tests
+**Protocol (`amcp`)** — 46 tests
 
 - Command building with the server's real escaping rules, verified against
   `tokenize.cpp`: `\\`, `\"`, `\n`, quoting for spaces and parentheses.
@@ -108,7 +108,6 @@ cells, and `MIXER PERSPECTIVE` produces a genuine corner-pin wedge (left edge
 - **Audio.** Volume actions compile; no metering, no routing UI.
 - **Recording / streaming consumers.** `ADD`/`REMOVE` exist in the command
   builders; no UI.
-- **Release engineering.** No CI, no release workflow, no packaged binaries.
 - **Show file versioning.** No schema version field yet.
 
 ## Known sharp edges
