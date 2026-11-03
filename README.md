@@ -12,6 +12,8 @@ A **live-events media server built on CasparCG**, in a browser: screens on a
 canvas, cues that change several of them on one frame, a media library, graphics
 templates and a trigger grid.
 
+The [project page](https://stoatworks-labs.com/software/caspar-av/) has the downloads, the [user guide](https://stoatworks-labs.com/software/caspar-av/guide/), the video and a demo you can click around in the browser.
+
 Not affiliated with or endorsed by the CasparCG project.
 
 ![Output mapping on the Screens page](docs/assets/screens.png)
